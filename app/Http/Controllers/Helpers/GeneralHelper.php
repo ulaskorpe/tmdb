@@ -29,7 +29,7 @@ class GeneralHelper extends Controller
         $array = explode(".", $file);
         return strtolower($array[count($array) - 1]);
     }
-    public static function fixName($x)
+    public static function makeSlug($x)
     {
         $x = trim(strtolower($x));
 
@@ -47,12 +47,12 @@ class GeneralHelper extends Controller
         $x = (str_replace("Ü", "u", $x));
         $x = (str_replace("ö", "o", $x));
         $x = (str_replace("Ö", "o", $x));
-        $x = (str_replace(".", "_", $x));
-        $x = (str_replace(",", "_", $x));
-        $x = (str_replace("!", "_", $x));
-        $x = (str_replace("?", "_", $x));
+        $x = (str_replace(".", "-", $x));
+        $x = (str_replace(",", "-", $x));
+        $x = (str_replace("!", "-", $x));
+        $x = (str_replace("?", "-", $x));
         $x = (str_replace("/", " ", $x));
-        $x = (str_replace(" ", "_", $x));
+        $x = (str_replace(" ", "-", $x));
         //  $x=(str_replace(" ","_",$x));
         // $x=(str_replace("_","",$x));
         $xz = "";
