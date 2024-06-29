@@ -48,6 +48,7 @@ Route::group(['prefix'=>'admin-panel','middleware'=>\App\Http\Middleware\checkAd
         Route::get('/',[SeriesController::class,'seriesList'])->name('series-list');  
         Route::get('/search',[SeriesController::class,'test'])->name('series-search');  
         Route::get('/detail/{slug}',[SeriesController::class,'seriesDetail'])->name('series-detail');
+        Route::get('/episode-list/{season_id}',[SeriesController::class,'episodeList'])->name('episode_list');
 
     });
 });

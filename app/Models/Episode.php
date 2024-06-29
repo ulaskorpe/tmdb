@@ -10,10 +10,15 @@ class Episode extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $fillable = ['season_id', 'episode_number', 'title', 'description', 'air_date', 'poster_path'];
+    protected $fillable = ['season_id', 'episode_number', 'production_code','name','slug','episode_type',
+    'vote_average','vote_count' ,'runtime',   
+    'overview', 'air_date', 'still_path'];
 
     public function season()
     {
         return $this->belongsTo(Season::class);
     }
 }
+
+
+ 

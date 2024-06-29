@@ -8,6 +8,7 @@ use App\Models\GenreSeries;
 use App\Models\Movie;
 use App\Models\Series;
 use App\Models\Season;
+use App\Models\Episode;
 
 
 class TMDBService
@@ -77,6 +78,47 @@ class TMDBService
     
 
         return json_decode($response->getBody(), true);
+    }
+
+
+    public function fetchSeriesSeasonsEpisodes($seriesId,$season_number)
+    {
+
+        $response = $this->client->get("tv/".$seriesId."/season/".$season_number, [
+            'query' => [
+                'api_key' => env('TMDB_API_KEY'),
+            ]
+        ]);
+
+    
+
+        return json_decode($response->getBody(), true);
+    }
+
+
+    public function createUpdateEpisode($data,$season_id){
+        $episode = Episode::find($data['id']);
+        if(empty($episode)){
+            $episode = new Episode();
+            $episode->id  = $data['id'];
+            $episode->season_id  =$season_id;
+           
+        }
+
+        $episode->name = $data['name'];
+        $episode->slug = GeneralHelper::makeSlug($data['name']);
+        $episode->episode_number = $data['episode_number'];
+        $episode->overview = $data['overview'];
+        $episode->season_number = $data['season_number'];
+        $episode->production_code = intval( $data['production_code']);
+        $episode->episode_type = $data['episode_type'];
+        $episode->vote_average = $data['vote_average'];
+        $episode->vote_count = $data['vote_count'];
+        $episode->runtime = (!empty($data['runtime']))?intval($data['runtime']):0;
+        $episode->air_date = (!empty($data['air_date'])) ? $data['air_date'] : '2024-01-01';
+        $episode->still_path = $data['still_path'];
+        $episode->save();
+
     }
 
     public function createUpdateGenre($data,$type='movie'){

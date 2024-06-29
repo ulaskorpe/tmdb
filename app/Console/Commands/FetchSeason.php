@@ -33,11 +33,10 @@ class FetchSeason extends Command
         $series_id = $this->argument('series_id');
         $series = Series::find($series_id);
         if(!empty($series)){
-            // $this->info($series['name']);
-            // echo "\n";
+     
             $data = $this->tmdbService->fetchSeriesSeasons($series_id);
             foreach($data['seasons'] as $season){
-               // echo $season['name']."\n";
+           
                 $this->tmdbService->createUpdateSeason($season,$series_id);
             }
         }else{

@@ -12,7 +12,7 @@ class FetchSeries extends Command
      *
      * @var string
      */
-    protected $signature = 'app:fetch-series {pages=50}' ;
+    protected $signature = 'app:fetch-series {pages=10}' ;
     protected $tmdbService;
     /**
      * The console command description.
