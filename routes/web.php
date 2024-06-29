@@ -23,7 +23,7 @@ use App\Http\Controllers\SeriesController;
 */
  
 Route::get('/',[HomeController::class, 'index']);
-Route::get('/test',[HomeController::class, 'test']);
+ 
  
 Route::get('/login',[AuthController::class,'login']);
 Route::post('/login-post',[AuthController::class,'login_post'])->name('admin-login-post');

@@ -1,66 +1,69 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# TMDB API Project
 
-## About Laravel
+this project is build for job application to Happy Horizon by Ulaş Körpe
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+ 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation
 
-## Learning Laravel
+ 
+   git clone https://github.com/ulaskorpe/tmdb
+   composer install 
+   create your .env file and connect to your db 
+   place your TMDB API KEY with name of  TMDB_API_KEY to .env file
+   run : php artisan migrate --seed
+    
+## usage 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    When you install and run the project , you can login to panel with admin code : 130000 and password : secret
+    I ve used free cms panel called ElaAdmin for presentation 
+    TMDB connector is defined as a service under services/TMDBService , fetches required data from TMDB api 
+    and required functions  to write related tables in database 
+    For filling the db , i ve used commands , called on seeders . I ve used observers to fetch related data in chain from TMDB
+    and created one method to create/update for each entity. 
+    Genres of movies and series were different datasets so , I ve created them as   diffrent entities (Genre and GenreSeries)
+    Movies has many genres related with a pivot table defined on its model  , when a movie fetched method looks for the same unique ID comes from TMDB and creates / updates the record with given data . 
+    attaches the given genre data ( its checked if genre with same id exists in db.genres table)
+    I ve used almost every data with same name fetched from each node in movies dataset 
+    Series hasmany Seasons and seasons has many episodes , defined in their model 
+    As same as movies when a series saved , it triggers series observer which fetches seasons data from TMDB 
+    as a season saved it triggers seasons observer which fetches episodes data from TMDB
+    # I ve ommited that line in observer for seeding takes so long 
+    On admin panel , there are movies listed according to popularity DESC  , vote count DESC and vote average DESC 
+    demostrated on a datatable to view details click on record
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    for detail page gives other details about record
+    find movies , triggers another function in TMDBService which fetches data according to given keyword , creates/updates movies given as results,  data given keep results in session until clear search button used 
 
-## Laravel Sponsors
+    Series and seasons works in same way, only episodes are missing in db for seeding takes so long 
+    I ve implamented a function in series detail page , a series given with its seasons demonstrated as bootstrap accordion
+    under series info data , I ve placed a button runs a ajax function that fetches episodes data from TMDB  and places it to episodes table , it also updates if data is already among records. 
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+    For each record i ve created a slug field for user/seo friendly usage , creating slug with my GeneralHelper trait 
 
-### Premium Partners
+    Genres section , lists movie and series genres in datatables , returns the same view data is defined according to given type
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
 
-## Contributing
+    Commands:  
+        I ve created seperate command for each entity , movies series seasons episodes and genres , you can always use them filling  or updating the database . They are also called in seeders 
+        To use a related entities command , parameters are required like season_id , series_id 
+        note: all id are matches with record id on  TMDB database 
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    Database Structure :
+        movies <--> genres
+        series <--> genreSeries
+        series <--> seasons <--> episodes 
+        users : defines users who can login 
 
-## Code of Conduct
+    API Collection :
+        I ve placed tmdb.postman_collection.json file which i used to test TMDB api's , in projects folder
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+     
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
