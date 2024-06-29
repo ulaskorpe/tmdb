@@ -6,8 +6,8 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
     <style>
         .movie-img {
-            width: 200px;
-            height: 300px;
+            width: 300px;
+            height: auto;
         }
         </style>
 @endsection
@@ -56,7 +56,7 @@
                                 <tbody>
                                    
                                  @foreach($movies as $movie)
-                                 <tr style="cursor:pointer" onclick="window.open('{{route('movie-detail',$movie->slug)}}','_self')">
+                                 <tr style="cursor:pointer" onclick="window.open('/admin-panel/movies/detail/{{$movie['slug']}}','_self')">
                                    
                                     <td>
                                         @if($movie['poster_path'])
@@ -107,24 +107,6 @@
             $('#bootstrap-data-table-export').DataTable();
         });
 
-        function deletemovie(id) {
-            Swal.fire({
-                text: 'movie silinecek, emin misin?',
-                //text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Evet',
-                cancelButtonText: 'Hayır'
-            }).then((result) => {
-
-                if (result.isConfirmed) {
-                     
-                    $('#deleteform' + id).submit();
-                       
-                }
-            });
-        }
+        
     </script>
 @endsection

@@ -10,14 +10,52 @@ use App\Traits\HttpResponses;
 use App\Models\Blog;
 use App\Models\BlogImage;
 use Carbon\Carbon;
+use App\Services\TMDBService;
 
 class HomeController extends Controller
 {
 
     use HttpResponses;
+
+
+    protected $tmdbService;
+
+    public function __construct(TMDBService $tmdbService)
+    {
+        $this->tmdbService = $tmdbService;
+    }
+
     public function index(){
         return response()->redirectTo('/login');
     }
+
+
+    public function test(){
+
+        $data = $this->tmdbService->fetchSeriesSeasons(1399);
+        
+        foreach($data['seasons'] as $season){
+            
+        }
+        die();
+        return response()->json($data['seasons']);
+        foreach ($data['genres'] as $data) {
+          // $this->tmdbService->createUpdateGenre($data,'tv');
+          
+
+        }
+
+        $data = $this->tmdbService->fetchPopularSeries(2);
+        return response()->json($data);
+        // foreach ($data['results'] as $data) {
+
+           
+        //     var_dump( json_decode( $data,true));
+
+
+        // }
+    }
+
     private function createSlug($string) {
         // Convert accented characters to their non-accented counterparts
         $string = iconv('UTF-8', 'ASCII//TRANSLIT', $string);

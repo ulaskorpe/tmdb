@@ -23,6 +23,7 @@ use App\Http\Controllers\SeriesController;
 */
  
 Route::get('/',[HomeController::class, 'index']);
+Route::get('/test',[HomeController::class, 'test']);
  
 Route::get('/login',[AuthController::class,'login']);
 Route::post('/login-post',[AuthController::class,'login_post'])->name('admin-login-post');
@@ -32,20 +33,21 @@ Route::group(['prefix'=>'admin-panel','middleware'=>\App\Http\Middleware\checkAd
     Route::get('/',[DashboardController::class, 'index'])->name('dashboard');
  
     Route::post('/logout',[AuthController::class,'logout'])->name('logout');
-    Route::get('/genre-list',[GenreController::class,'genreList'])->name('genre-list');  
+    Route::get('/genre-list/{type}',[GenreController::class,'genreList'])->name('genre-list');  
+    
     Route::group(['prefix'=>'movies'],function (){
-        Route::get('/list',[MovieController::class,'movieList'])->name('movie-list');  
-        Route::get('/search',[MovieController::class,'movieDetail'])->name('movie-search');  
-        Route::get('/{slug}',[MovieController::class,'movieDetail'])->name('movie-detail');  
+        Route::get('/',[MovieController::class,'movieList'])->name('movie-list');  
+       Route::get('/search',[MovieController::class,'movieDetail'])->name('movie-search');  
+       Route::get('/detail/{slug}',[MovieController::class,'movieDetail'])->name('movie-detail');  
  
 
     });
  
     Route::group(['prefix'=>'series'],function (){
 
-        Route::get('/list',[SeriesController::class,'test'])->name('series-list');  
+        Route::get('/',[SeriesController::class,'seriesList'])->name('series-list');  
         Route::get('/search',[SeriesController::class,'test'])->name('series-search');  
-        Route::get('/{slug}',[SeriesController::class,'test'])->name('series-detail');
+        Route::get('/detail/{slug}',[SeriesController::class,'seriesDetail'])->name('series-detail');
 
     });
 });

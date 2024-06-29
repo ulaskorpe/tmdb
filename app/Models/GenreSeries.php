@@ -6,15 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Genre extends Model
+class GenreSeries extends Model
 {
     use HasFactory,SoftDeletes;
 
     protected $fillable = ['name'];
 
-    public function movies()
+    public function series()
     {
-        return $this->belongsToMany(Movie::class, 'genre_movie' );
+        return $this->belongsToMany(Series::class, 'genre_series_pivot_table' );
     }
-
 }

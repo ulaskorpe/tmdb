@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('seasons', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('slug');
+            $table->text('overview')->nullable();
             $table->foreignId('series_id')->constrained()->onDelete('cascade');
-            $table->integer('season_number');
-            $table->date('release_date')->nullable();
+            $table->integer('season_number')->default(0);
+            $table->integer('episode_count')->default(0);
+            $table->float('vote_average')->default(0);
+            $table->date('air_date')->nullable()->default(now());
             $table->string('poster_path')->nullable();
             $table->softDeletes();
             $table->timestamps();

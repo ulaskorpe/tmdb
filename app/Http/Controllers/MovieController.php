@@ -15,11 +15,7 @@ class MovieController extends Controller
         $this->tmdbService = $tmdbService;
     }
 
-    public function movieDetail($slug){
-        $movie = Movie::with('genres')->where('slug','=',$slug)->first();
-      
-        return view('panel.movies.detail',['movie'=>$movie]);
-    }
+
 
 
     public function movieList(){
@@ -27,6 +23,12 @@ class MovieController extends Controller
        ->where('vote_count','>',1)
       ->orderBy('popularity','DESC')
         ->orderBy('vote_count','DESC')->orderBy('vote_average','DESC')->get()]);
+    }
+
+    public function movieDetail($slug){
+    
+      
+        return view('panel.movies.detail',['movie'=>Movie::with('genres')->where('slug','=',$slug)->first()]);
     }
 
     public function test(){

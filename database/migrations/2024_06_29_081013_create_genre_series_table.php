@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('series', function (Blueprint $table) {
-            
-            $table->string('slug')->after('name')->nullable();   
+        Schema::create('genre_series', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -22,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('series', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('genre_series');
     }
 };

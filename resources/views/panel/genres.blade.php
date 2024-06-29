@@ -25,7 +25,7 @@
                 <div class="col-sm-8">
                     <div class="page-header float-right">
                         <div class="page-title">
-                            MOVIES
+                           GENRES
                         </div>
                     </div>
                 </div>

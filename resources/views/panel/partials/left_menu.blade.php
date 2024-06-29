@@ -18,8 +18,8 @@
                     <a href="#" class="active dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="true"> <i class="menu-icon fa fa-video-camera"></i>Series</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-list"></i><a href="ui-buttons.html">List Series</a></li>
-                        <li><i class="fa fa-search"></i><a href="ui-badges.html">Find Series</a></li>
+                        <li><i class="fa fa-list"></i><a href="{{ route( 'series-list')}}">List Series  </a></li>
+                        <li><i class="fa fa-search"></i><a href="{{ route( 'movie-list')}}">Find Series</a></li>
                   
                     </ul>
                 </li>
@@ -28,7 +28,8 @@
                         aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Genres</a>
                     <ul class="sub-menu children dropdown-menu">
                        
-                        <li><i class="fa fa-list"></i><a href="{{route('genre-list')}}">List Genres</a></li>
+                        <li><i class="fa fa-list"></i><a href="{{route('genre-list','movie')}}">Movie Genres</a></li>
+                        <li><i class="fa fa-list"></i><a href="{{route('genre-list','tv')}}">Series Genres</a></li>
                   
                     </ul>
                 </li>
