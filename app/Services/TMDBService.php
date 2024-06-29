@@ -22,14 +22,21 @@ class TMDBService
         ]);
     }
 
-    public function fetchMovie($id)
+    public function searchFunction($keyword,$type='movie')
     {
-        $response = $this->client->get("movie/{$id}", [
-            'query' => ['api_key' => env('TMDB_API_KEY')]
+        $response = $this->client->get("search/".$type, [
+            'query' => [
+                'api_key' => env('TMDB_API_KEY'),
+                'query'=>$keyword
+                ]
+
         ]);
 
         return json_decode($response->getBody(), true);
     }
+
+ 
+
     public function fetchPopularMovies($page)
     {
         $response = $this->client->get("movie/popular", [

@@ -37,8 +37,11 @@ Route::group(['prefix'=>'admin-panel','middleware'=>\App\Http\Middleware\checkAd
     
     Route::group(['prefix'=>'movies'],function (){
         Route::get('/',[MovieController::class,'movieList'])->name('movie-list');  
-       Route::get('/search',[MovieController::class,'movieDetail'])->name('movie-search');  
+       Route::get('/search',[MovieController::class,'movieSearch'])->name('movie-search');  
+       Route::post('/search-post',[MovieController::class,'movieSearchPost'])->name('movie-search-post');  
+       Route::post('/clear-search-post',[MovieController::class,'clearSearch'])->name('movie-search-clear');  
        Route::get('/detail/{slug}',[MovieController::class,'movieDetail'])->name('movie-detail');  
+       Route::get('/search-results',[MovieController::class,'searchResults'])->name('search-movie-results');  
  
 
     });
@@ -46,7 +49,9 @@ Route::group(['prefix'=>'admin-panel','middleware'=>\App\Http\Middleware\checkAd
     Route::group(['prefix'=>'series'],function (){
 
         Route::get('/',[SeriesController::class,'seriesList'])->name('series-list');  
-        Route::get('/search',[SeriesController::class,'test'])->name('series-search');  
+        Route::get('/search',[SeriesController::class,'seriesSearch'])->name('series-search');  
+        Route::post('/search-post',[SeriesController::class,'seriesSearchPost'])->name('series-search-post');  
+        Route::post('/clear-search-post',[SeriesController::class,'clearSearch'])->name('series-search-clear');  
         Route::get('/detail/{slug}',[SeriesController::class,'seriesDetail'])->name('series-detail');
         Route::get('/episode-list/{season_id}',[SeriesController::class,'episodeList'])->name('episode_list');
 

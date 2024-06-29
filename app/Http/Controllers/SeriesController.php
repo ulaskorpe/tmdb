@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Series;
 use App\Models\Episode;
 use App\Models\Season;
+use Illuminate\Support\Facades\Session;
 class SeriesController extends Controller
 {
     protected $tmdbService;
@@ -26,12 +27,33 @@ class SeriesController extends Controller
         return view('panel.series.detail',['series'=>$series,'seasons'=>$seasons]);
     }
 
+    public function clearSearch(Request $request)
+    {
+        Session::forget('search-series-ids');
+        Session::forget('search-series-word');
+        return response()->redirectTo('/admin-panel/series');
+    }
+
+
 
     public function seriesList(){
-        return view('panel.series.list',['series'=>Series::with('genres')
-       ->where('vote_count','>',1)
-      ->orderBy('popularity','DESC')
-        ->orderBy('vote_count','DESC')->orderBy('vote_average','DESC')->get()]);
+      
+        $result_ids = Session::get('search-series-ids');
+        $keyword  = Session::get('search-series-word');
+
+
+        $series = Series::with('genres')
+        ->where('vote_count','>',1)
+       ->orderBy('popularity','DESC')
+         ->orderBy('vote_count','DESC')->orderBy('vote_average','DESC') ;
+
+         if(!empty($result_ids)){
+            $series = $series->whereIn('id',explode("@",$result_ids));
+         }
+         
+          $series = $series->get();
+
+        return view('panel.series.list',['series'=>$series,'keyword'=>$keyword]);
     }
 
     public function episodeList($season_id){
@@ -51,5 +73,27 @@ class SeriesController extends Controller
 
         }
         
+    }
+
+    public function seriesSearch(){
+        return view('panel.series.search');
+    }
+
+    public function seriesSearchPost(Request $request){
+        $data = $this->tmdbService->searchFunction($request['keyword'],'tv');
+         
+        $result_array="";
+        foreach($data['results'] as $result){
+           
+             $result_array .= $result['id']."@";
+            // $this->tmdbService->createUpdateSeries($result);
+        }
+        
+        Session::put('search-series-ids', $result_array);
+        Session::put('search-series-word', $request['keyword']);
+      
+      
+        return response()->redirectTo('/admin-panel/series');
+            
     }
 }

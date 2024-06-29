@@ -25,7 +25,23 @@
                 <div class="col-sm-8">
                     <div class="page-header float-right">
                         <div class="page-title">
-                            MOVIES
+                            
+                            @if(!empty($keyword))
+                                RESULTS FOR : {{$keyword}}
+                                <form class="form" id="search-form" name="search-form" action="{{route('movie-search-clear')}}"
+                                method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
+                                
+                                 
+                              
+                                    <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30">Clear Search</button>
+                                  
+                                </form>
+                                
+
+                                @else
+                                MOVIES
+                            @endif 
                         </div>
                     </div>
                 </div>

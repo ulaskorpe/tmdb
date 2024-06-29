@@ -32,11 +32,11 @@ class HomeController extends Controller
 
     public function test(){
 
-        $data = $this->tmdbService->fetchSeriesSeasonsEpisodes(1399,2);
+        $data = $this->tmdbService->searchMovie('interstellar');
         
       
          
-       // return response()->json($data['episodes']);
+        return response()->json($data['results']);
         foreach ($data['episodes'] as $data) {
             echo $data['name'];
            $this->tmdbService->createUpdateEpisode($data,3625);
